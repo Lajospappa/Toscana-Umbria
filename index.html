@@ -18,9 +18,7 @@
     }
 
     /* térkép fixen alul */
-    body {
-      padding-bottom: 290px;
-    }
+    
 
     .map-dock {
       position: fixed;
@@ -1807,16 +1805,22 @@
 
       </div>
 
-      
+
 
     </div>
   </div>
 
-  <div class="map-dock">
-    <div class="map-frame">
+  <div class="map-dock" id="mapDock">
+    <div class="map-dock-handle" id="mapDockHandle">
+      <div class="map-dock-title">🗺️ Térkép</div>
+      <button class="map-dock-btn" id="mapDockToggle" type="button" aria-expanded="false">▲</button>
+    </div>
+
+    <div class="map-dock-body">
       <div id="map"></div>
     </div>
   </div>
+
 
   <script src="assets/js/gps.js"></script>
   <script src="assets/js/page_toscana_umbria.js"></script>
