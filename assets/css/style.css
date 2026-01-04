@@ -23,13 +23,12 @@ body{
   line-height:1.55;
 }
 
-/* ===== NAPI HÁTTÉR ===== */
+/* ===== NAPI HÁTTÉR (példa) ===== */
 body.bg-day01{
   background:
     linear-gradient(rgba(0,0,0,0.00), rgba(0,0,0,0.00)),
     url('../../day01/images/Durnstein.jpg') center / cover no-repeat fixed;
 }
-
 
 a{ color:var(--accent); text-decoration:none; }
 a:hover{ text-decoration:underline; }
@@ -70,10 +69,7 @@ a:hover{ text-decoration:underline; }
 }
 
 /* ===== GOMBOK ===== */
-.btnrow{
-  display:flex;
-  gap:10px;
-}
+.btnrow{ display:flex; gap:10px; }
 
 .btn{
   appearance:none;
@@ -117,7 +113,7 @@ a:hover{ text-decoration:underline; }
 .container{
   max-width:980px;
   margin:0 auto;
-  padding:18px 14px 34px;
+  padding:18px 14px calc(34px + 86px + env(safe-area-inset-bottom));
   width:100%;
   flex:1;
 }
@@ -194,13 +190,13 @@ a:hover{ text-decoration:underline; }
   margin-top:12px;
   border:1px solid rgba(255,255,255,0.10);
   box-shadow:0 10px 22px rgba(0,0,0,0.30);
-  overflow:hidden;              /* hogy a kerekítés tényleg látszódjon */
+  overflow:hidden;
   background:rgba(0,0,0,0.18);
 }
 
 .gsv-wrap iframe{
   width:100%;
-  height:360px;                /* lista nézethez jó alap */
+  height:360px;
   border:0;
   display:block;
 }
@@ -208,43 +204,64 @@ a:hover{ text-decoration:underline; }
 @media (max-width: 520px){
   .gsv-wrap iframe{ height:300px; }
 }
-/* ===== MAP DOCK MINI PLAYER ===== */
+
+/* ===== MAP DOCK MINI PLAYER (JAVÍTOTT) ===== */
+/* 1) a térkép szélessége igazodik a 980px-es tartalomhoz */
+/* 2) csak a jobb oldali nyíl gomb kattintható (nem a teljes fejléc sáv) */
 .map-dock{
   position:fixed;
   left:0;
   right:0;
   bottom:0;
   z-index:999;
-  background:rgba(10,10,10,0.92);
-  border-top:1px solid var(--border);
-  box-shadow:0 -8px 24px rgba(0,0,0,0.35);
-  transform:translateY(calc(100% - 56px));
-  transition:transform 220ms ease;
-  border-top-left-radius:14px;
-  border-top-right-radius:14px;
-  overflow:hidden;
-  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(10,10,10,0.92) !important;
+  border-top:1px solid var(--border) !important;
+  box-shadow:0 -8px 24px rgba(0,0,0,0.35) !important;
+
+  transform:translateY(calc(100% - 56px)) !important;
+  transition:transform 220ms ease !important;
+
+  border-top-left-radius:14px !important;
+  border-top-right-radius:14px !important;
+  overflow:hidden !important;
+
+  height:auto !important;
+  padding-bottom:env(safe-area-inset-bottom) !important;
 }
 
 .map-dock.open{
-  transform:translateY(0);
+  transform:translateY(0) !important;
 }
 
+/* a handle és a body kapja meg a 980-as korlátot, így a MAP nem lesz szélesebb */
+.map-dock-handle,
+.map-dock-body{
+  max-width:980px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+/* HANDLE: ne legyen kattintható sáv, csak a gomb */
 .map-dock-handle{
   height:56px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 14px;
+
   user-select:none;
-  cursor:pointer;
+  cursor:default !important;
+
+  pointer-events:none !important;   /* EZ a kulcs: nem a sáv toggle-öl */
 }
 
 .map-dock-title{
   font-weight:800;
   color:var(--text);
+  pointer-events:none !important;
 }
 
+/* a nyíl gomb visszakapja a kattinthatóságot */
 .map-dock-btn{
   appearance:none;
   border:1px solid var(--border);
@@ -253,25 +270,23 @@ a:hover{ text-decoration:underline; }
   border-radius:12px;
   padding:8px 10px;
   font-weight:800;
+  cursor:pointer;
+
+  pointer-events:auto !important; /* csak ez kap clicket */
 }
 
 .map-dock-body{
   height:min(72vh, 620px);
-  padding:10px 10px 14px;
+  padding:10px 14px 14px; /* ugyanaz a 14px mint a container oldalpárnája */
 }
 
-/* a térkép most már a dockon belül tölti ki a helyet */
+/* a térkép a korlátozott szélességen belül tölti ki a helyet */
 #map{
-  width:100%;
-  height:100%;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.10);
-  box-shadow:0 10px 22px rgba(0,0,0,0.30);
-  overflow:hidden;
-}
+  width:100% !important;
+  height:100% !important;
 
-/* hogy a lap alja ne csússzon a dock alá */
-.container{
-  padding-bottom:calc(34px + 86px + env(safe-area-inset-bottom));
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,0.10) !important;
+  box-shadow:0 10px 22px rgba(0,0,0,0.30) !important;
+  overflow:hidden !important;
 }
-
