@@ -208,7 +208,7 @@ a:hover{ text-decoration:underline; }
 @media (max-width: 520px){
   .gsv-wrap iframe{ height:300px; }
 }
-//* ===== MAP DOCK MINI PLAYER ===== */
+/* ===== MAP DOCK MINI PLAYER ===== */
 .map-dock{
   position:fixed;
   left:0;
