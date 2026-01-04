@@ -290,3 +290,42 @@ a:hover{ text-decoration:underline; }
   box-shadow:0 10px 22px rgba(0,0,0,0.30) !important;
   overflow:hidden !important;
 }
+/* === MAP DOCK: a fekete háttér csak középen legyen, a szélek átlátszók === */
+.map-dock{
+  background: transparent !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+/* középre tett "panel" háttér */
+.map-dock::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:0;
+  bottom:0;
+
+  width: min(980px, calc(100% - 28px)); /* 14px bal + 14px jobb */
+  background: rgba(10,10,10,0.92);
+  border-top: 1px solid var(--border);
+
+  border-top-left-radius:14px;
+  border-top-right-radius:14px;
+  box-shadow:0 -8px 24px rgba(0,0,0,0.35);
+
+  pointer-events:none; /* ne fogja meg a kattintást */
+}
+
+/* a tartalom a panel felett legyen */
+.map-dock-handle,
+.map-dock-body{
+  position: relative;
+  z-index: 1;
+}
+
+/* ne ők adják a fekete hátteret */
+.map-dock-handle,
+.map-dock-body{
+  background: transparent !important;
+}
