@@ -1,4 +1,4 @@
-/* global L, getPos, haversineMeters, fmtMeters, measureToPoi, measureNearest */
+/* global L, getPos, haversineMeters, fmtMeters, measureNearest */
 "use strict";
 
 /* Toszkána és Umbria oldal logika */
@@ -8,15 +8,15 @@ const MAX_SEL = 10;
 const LS_KEY = "sel_" + DAY_ID;
 
 const POIS = [
-  { id: "p1",  name: "Firenze, történelmi központ (Duomo környéke)", lat: 43.769600, lon: 11.255800 },
-  { id: "p2",  name: "Siena, történelmi központ", lat: 43.318800, lon: 11.330800 },
-  { id: "p3",  name: "Pisa, Piazza del Duomo", lat: 43.723100, lon: 10.396600 },
-  { id: "p4",  name: "San Gimignano, óváros és tornyok", lat: 43.467300, lon: 11.043100 },
-  { id: "p5",  name: "Val d’Orcia, tájkép Pienza környékén", lat: 43.077700, lon: 11.679200 },
-  { id: "p6",  name: "Lucca, városfal és óváros", lat: 43.842900, lon: 10.502700 },
-  { id: "p7",  name: "Chianti Classico, Greve in Chianti környéke", lat: 43.585700, lon: 11.316900 },
-  { id: "p8",  name: "Arezzo, óváros", lat: 43.463300, lon: 11.879600 },
-  { id: "p9",  name: "Volterra, etruszk városmag", lat: 43.401800, lon: 10.860500 },
+  { id: "p1", name: "Firenze, történelmi központ (Duomo környéke)", lat: 43.769600, lon: 11.255800 },
+  { id: "p2", name: "Siena, történelmi központ", lat: 43.318800, lon: 11.330800 },
+  { id: "p3", name: "Pisa, Piazza del Duomo", lat: 43.723100, lon: 10.396600 },
+  { id: "p4", name: "San Gimignano, óváros és tornyok", lat: 43.467300, lon: 11.043100 },
+  { id: "p5", name: "Val d’Orcia, tájkép Pienza környékén", lat: 43.077700, lon: 11.679200 },
+  { id: "p6", name: "Lucca, városfal és óváros", lat: 43.842900, lon: 10.502700 },
+  { id: "p7", name: "Chianti Classico, Greve in Chianti környéke", lat: 43.585700, lon: 11.316900 },
+  { id: "p8", name: "Arezzo, óváros", lat: 43.463300, lon: 11.879600 },
+  { id: "p9", name: "Volterra, etruszk városmag", lat: 43.401800, lon: 10.860500 },
   { id: "p10", name: "Montepulciano, dombtető és borváros", lat: 43.098700, lon: 11.787200 },
   { id: "p11", name: "Pienza, reneszánsz ideális város", lat: 43.077700, lon: 11.679200 },
   { id: "p12", name: "Montalcino, erőd és borvidék", lat: 43.057600, lon: 11.489000 },
@@ -191,7 +191,7 @@ function moveSelected(id, dir) {
   refreshSelectionUi();
 }
 
-/* ===== pick UI injektálás (a te CSS-edhez) ===== */
+/* ===== pick UI injektálás ===== */
 
 function ensurePoiPickControls() {
   for (const p of POIS) {
@@ -289,13 +289,13 @@ function numberedGreenIcon(n) {
 
   const html =
     '<div style="position:relative;width:25px;height:41px;">' +
-      '<img src="' + greenUrl + '" style="width:25px;height:41px;display:block;" />' +
-      '<div style="position:absolute;left:0;top:3px;width:25px;height:26px;display:flex;align-items:center;justify-content:center;">' +
-        '<span style="display:inline-block;min-width:18px;padding:1px 5px;border-radius:999px;' +
-                     'background:rgba(255,255,255,0.88);color:#111;font-weight:900;font-size:12px;' +
-                     'line-height:16px;text-align:center;border:1px solid rgba(0,0,0,0.18);' +
-                     'box-shadow:0 1px 2px rgba(0,0,0,0.25);">' + key + '</span>' +
-      "</div>" +
+    '<img src="' + greenUrl + '" style="width:25px;height:41px;display:block;" />' +
+    '<div style="position:absolute;left:0;top:3px;width:25px;height:26px;display:flex;align-items:center;justify-content:center;">' +
+    '<span style="display:inline-block;min-width:18px;padding:1px 5px;border-radius:999px;' +
+    'background:rgba(255,255,255,0.88);color:#111;font-weight:900;font-size:12px;' +
+    'line-height:16px;text-align:center;border:1px solid rgba(0,0,0,0.18);' +
+    'box-shadow:0 1px 2px rgba(0,0,0,0.25);">' + key + '</span>' +
+    "</div>" +
     "</div>";
 
   const icon = L.divIcon({
@@ -313,6 +313,9 @@ function numberedGreenIcon(n) {
 function initMap() {
   const mapEl = document.getElementById("map");
   if (!mapEl || !window.L) return;
+
+  // ha véletlenül kétszer futna, ne inicializáljon újra
+  if (map) return;
 
   initIcons();
 
@@ -333,27 +336,26 @@ function initMap() {
     marker.bindPopup(`<b>${escapeHtml(title)}</b>`);
     poiMarkers.set(p.id, marker);
 
-    let clickTimer = null;
-    let suppressClickUntil = 0;
+    // mobil dupla tap: 360 ms ablak, különben popup
+    let lastTap = 0;
+    let singleTimer = null;
 
     marker.on("click", () => {
       const now = Date.now();
-      if (now < suppressClickUntil) return;
 
-      clearTimeout(clickTimer);
-      clickTimer = setTimeout(() => {
-        marker.openPopup();
-      }, 220);
-    });
-
-    marker.on("dblclick", (e) => {
-      suppressClickUntil = Date.now() + 450;
-      clearTimeout(clickTimer);
-
-      if (e && e.originalEvent && typeof e.originalEvent.preventDefault === "function") {
-        e.originalEvent.preventDefault();
+      if (now - lastTap < 360) {
+        lastTap = 0;
+        if (singleTimer) clearTimeout(singleTimer);
+        scrollToPoi(p.id);
+        return;
       }
-      scrollToPoi(p.id);
+
+      lastTap = now;
+
+      if (singleTimer) clearTimeout(singleTimer);
+      singleTimer = setTimeout(() => {
+        marker.openPopup();
+      }, 380);
     });
 
     bounds.push([p.lat, p.lon]);
@@ -445,6 +447,51 @@ async function measureAll(scrollToNearest) {
   }
 }
 
+/* ===== MapDock ===== */
+
+function initMapDock() {
+  const dock = document.getElementById("mapDock") || document.querySelector(".map-dock");
+  const handle = document.getElementById("mapDockHandle");
+  const btn = document.getElementById("mapDockToggle");
+  if (!dock || !handle) return;
+
+  const KEY = "mapDockOpen_" + DAY_ID;
+
+  const wantOpenDefault = window.matchMedia("(min-width: 900px)").matches;
+  let isOpen = wantOpenDefault;
+
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw === "1") isOpen = true;
+    if (raw === "0") isOpen = false;
+  } catch { /* ignore */ }
+
+  function apply(open) {
+    dock.classList.toggle("open", open);
+    if (btn) {
+      btn.textContent = open ? "▼" : "▲";
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    try { localStorage.setItem(KEY, open ? "1" : "0"); } catch { /* ignore */ }
+
+    if (open && map) {
+      setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 260);
+      setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 600);
+    }
+  }
+
+  apply(isOpen);
+
+  function toggle(e) {
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+    isOpen = !dock.classList.contains("open");
+    apply(isOpen);
+  }
+
+  handle.addEventListener("click", toggle, { passive: false });
+  if (btn) btn.addEventListener("click", toggle, { passive: false });
+}
+
 /* ===== események ===== */
 
 function wireUi() {
@@ -505,7 +552,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ensurePoiPickControls();
   wireUi();
+
   initMap();
+  initMapDock();
 
   refreshSelectionUi();
 
