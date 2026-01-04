@@ -1,4 +1,4 @@
-/* global L, getPos, haversineMeters, fmtMeters, measureNearest */
+/* global L, getPos, haversineMeters, fmtMeters, measureToPoi, measureNearest */
 "use strict";
 
 /* Toszkána és Umbria oldal logika */
@@ -259,6 +259,21 @@ const __selIconCache = new Map();
 let userIconRed = null;
 let poiIconBlue = null;
 
+let __invalidateTimer = null;
+function invalidateMapBurst() {
+  if (!map) return;
+
+  const fire = (ms) => setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, ms);
+
+  fire(0);
+  fire(120);
+  fire(260);
+  fire(520);
+
+  if (__invalidateTimer) clearTimeout(__invalidateTimer);
+  __invalidateTimer = setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 900);
+}
+
 function initIcons() {
   if (!window.L) return;
 
@@ -310,12 +325,44 @@ function numberedGreenIcon(n) {
   return icon;
 }
 
+function wireMarkerTap(marker, poiId) {
+  let lastTap = 0;
+  let singleTimer = null;
+
+  marker.on("click", () => {
+    const now = Date.now();
+
+    if (now - lastTap < 360) {
+      lastTap = 0;
+      if (singleTimer) clearTimeout(singleTimer);
+      scrollToPoi(poiId);
+      return;
+    }
+
+    lastTap = now;
+
+    if (singleTimer) clearTimeout(singleTimer);
+    singleTimer = setTimeout(() => {
+      marker.openPopup();
+    }, 380);
+  });
+
+  marker.on("dblclick", (e) => {
+    if (e && e.originalEvent && typeof e.originalEvent.preventDefault === "function") {
+      e.originalEvent.preventDefault();
+    }
+    scrollToPoi(poiId);
+  });
+}
+
 function initMap() {
   const mapEl = document.getElementById("map");
   if (!mapEl || !window.L) return;
 
-  // ha véletlenül kétszer futna, ne inicializáljon újra
-  if (map) return;
+  if (map) {
+    invalidateMapBurst();
+    return;
+  }
 
   initIcons();
 
@@ -336,28 +383,7 @@ function initMap() {
     marker.bindPopup(`<b>${escapeHtml(title)}</b>`);
     poiMarkers.set(p.id, marker);
 
-    // mobil dupla tap: 360 ms ablak, különben popup
-    let lastTap = 0;
-    let singleTimer = null;
-
-    marker.on("click", () => {
-      const now = Date.now();
-
-      if (now - lastTap < 360) {
-        lastTap = 0;
-        if (singleTimer) clearTimeout(singleTimer);
-        scrollToPoi(p.id);
-        return;
-      }
-
-      lastTap = now;
-
-      if (singleTimer) clearTimeout(singleTimer);
-      singleTimer = setTimeout(() => {
-        marker.openPopup();
-      }, 380);
-    });
-
+    wireMarkerTap(marker, p.id);
     bounds.push([p.lat, p.lon]);
   }
 
@@ -367,9 +393,18 @@ function initMap() {
 
   window.map = map;
 
-  setTimeout(() => {
-    try { map.invalidateSize(); } catch { /* ignore */ }
-  }, 250);
+  /* Desktop MapDock + CSS transform esetén ez a legstabilabb */
+  if (typeof ResizeObserver !== "undefined") {
+    try {
+      const ro = new ResizeObserver(() => invalidateMapBurst());
+      ro.observe(mapEl);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  window.addEventListener("load", () => invalidateMapBurst());
+  invalidateMapBurst();
 }
 
 /* ===== UI frissítés ===== */
@@ -406,6 +441,8 @@ function refreshSelectionUi() {
       m.setZIndexOffset(on ? 800 : 0);
     }
   }
+
+  invalidateMapBurst();
 }
 
 /* ===== távolság mérés ===== */
@@ -440,6 +477,7 @@ async function measureAll(scrollToNearest) {
       } else {
         userMarker.setLatLng([lat, lon]);
       }
+      invalidateMapBurst();
     }
   } catch {
     const n = document.getElementById("gpsNotice");
@@ -451,8 +489,8 @@ async function measureAll(scrollToNearest) {
 
 function initMapDock() {
   const dock = document.getElementById("mapDock") || document.querySelector(".map-dock");
-  const handle = document.getElementById("mapDockHandle");
-  const btn = document.getElementById("mapDockToggle");
+  const handle = document.getElementById("mapDockHandle") || dock?.querySelector(".map-dock-handle");
+  const btn = document.getElementById("mapDockToggle") || dock?.querySelector(".map-dock-toggle");
   if (!dock || !handle) return;
 
   const KEY = "mapDockOpen_" + DAY_ID;
@@ -468,28 +506,36 @@ function initMapDock() {
 
   function apply(open) {
     dock.classList.toggle("open", open);
+
     if (btn) {
       btn.textContent = open ? "▼" : "▲";
       btn.setAttribute("aria-expanded", open ? "true" : "false");
     }
+
     try { localStorage.setItem(KEY, open ? "1" : "0"); } catch { /* ignore */ }
 
-    if (open && map) {
-      setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 260);
-      setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 600);
-    }
+    invalidateMapBurst();
   }
 
   apply(isOpen);
 
-  function toggle(e) {
+  const toggle = (e) => {
     if (e && typeof e.preventDefault === "function") e.preventDefault();
     isOpen = !dock.classList.contains("open");
     apply(isOpen);
-  }
+  };
 
   handle.addEventListener("click", toggle, { passive: false });
-  if (btn) btn.addEventListener("click", toggle, { passive: false });
+
+  if (btn) {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggle(e);
+    }, { passive: false });
+  }
+
+  dock.addEventListener("transitionend", () => invalidateMapBurst());
 }
 
 /* ===== események ===== */
@@ -552,16 +598,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ensurePoiPickControls();
   wireUi();
-
-  initMap();
   initMapDock();
 
-  refreshSelectionUi();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      initMap();
+      refreshSelectionUi();
+      invalidateMapBurst();
+    });
+  });
 
   measureAll(false);
   setTimeout(() => measureAll(false), 5000);
 
-  window.addEventListener("resize", () => {
-    if (map) setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 120);
-  });
+  window.addEventListener("resize", () => invalidateMapBurst());
 });
