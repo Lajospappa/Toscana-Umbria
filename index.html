@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hu">
 
 <head>
@@ -18,7 +18,9 @@
     }
 
     /* térkép fixen alul */
-    body { padding-bottom: 290px; }
+    body {
+      padding-bottom: 290px;
+    }
 
     .map-dock {
       position: fixed;
@@ -27,8 +29,8 @@
       bottom: 0;
       height: 270px;
       z-index: 999;
-      background: rgba(0,0,0,0.65);
-      border-top: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0, 0, 0, 0.65);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(6px);
     }
 
@@ -40,89 +42,151 @@
       border-radius: 0;
     }
 
-    .poi-tools{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
+    .poi-tools {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
       margin: 12px 0 16px 0;
     }
-    .poi-tools .counter{
-      font-weight:700;
-      padding:8px 10px;
-      border-radius:10px;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
+
+    .poi-tools .counter {
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
-    .poi.selected{
-      outline: 2px solid rgba(70,200,120,0.75);
-      box-shadow: 0 0 0 4px rgba(70,200,120,0.18);
+    .poi.selected {
+      outline: 2px solid rgba(70, 200, 120, 0.75);
+      box-shadow: 0 0 0 4px rgba(70, 200, 120, 0.18);
     }
 
-    .pick-ui{
-      display:flex;
-      align-items:center;
-      gap:8px;
+    .pick-ui {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-left: 10px;
     }
-    .pick-ui input[type="checkbox"]{
+
+    .pick-ui input[type="checkbox"] {
       transform: scale(1.12);
-      cursor:pointer;
+      cursor: pointer;
     }
-    .pick-badge{
+
+    .pick-badge {
       min-width: 56px;
-      text-align:center;
-      font-weight:800;
-      padding:4px 8px;
-      border-radius:10px;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
-    .pick-arrows{ display:flex; gap:6px; }
-    .pick-arrow{
+
+    .pick-arrows {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pick-arrow {
       width: 34px;
       height: 30px;
       border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.35);
-      color:#f3f3f3;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.35);
+      color: #f3f3f3;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
-    .pick-arrow:disabled{ opacity:0.35; cursor:default; }
 
-    .num-pin{
+    .pick-arrow:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .num-pin {
       width: 30px;
       height: 30px;
       border-radius: 16px;
-      display:grid;
-      place-items:center;
-      font-weight:900;
-      border: 2px solid rgba(255,255,255,0.8);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
-      background: rgba(70,200,120,0.95);
-      color:#0b1a10;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      background: rgba(70, 200, 120, 0.95);
+      color: #0b1a10;
     }
-      
+
     /* === MAP KERET (kilógás ellen) === */
-    .map-dock { height: 270px; padding: 10px 0; }
-    .map-dock .map-frame{
+    .map-dock {
+      height: 270px;
+      padding: 10px 0;
+    }
+
+    .map-dock .map-frame {
       height: 250px;
       width: min(1120px, calc(100% - 24px));
       margin: 0 auto;
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.25);
     }
-    .map-dock #map { width: 100%; height: 100%; }
+
+    .map-dock #map {
+      width: 100%;
+      height: 100%;
+    }
 
     /* === POI fejlécben legyen jól látható a kijelölő sor === */
-    .pick-ui{ margin-left: 0; margin-top: 8px; }
+    .pick-ui {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  </style>
+  <style id="tuUiFixes">
+    .tu-count {
+      background: rgba(255, 190, 0, 0.95) !important;
+      color: #111 !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      font-weight: 800 !important;
+    }
+
+    .tu-sel-nav {
+      background: rgba(70, 150, 255, 0.95) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      font-weight: 700 !important;
+    }
+
+    .tu-sel-del {
+      background: rgba(220, 60, 60, 0.95) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      font-weight: 700 !important;
+    }
+
+    .btn-route-mini {
+      background: rgba(70, 150, 255, 0.95) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      border-radius: 12px !important;
+      padding: 10px 12px !important;
+      font-size: 12px !important;
+      line-height: 1.05 !important;
+      text-align: center !important;
+      white-space: normal !important;
+    }
+
+    #map {
+      overflow: hidden;
+      border-radius: 14px;
+    }
   </style>
 </head>
 
@@ -138,7 +202,6 @@
         </div>
         <div class="btnrow">
           <button class="btn btn-accent" id="btnNearest">📍 Legközelebbi pont</button>
-          <button class="btn" id="btnRandom">🎲 Véletlen pont</button>
         </div>
       </div>
     </div>
@@ -158,13 +221,20 @@
 
       <div style="height:14px"></div>
 
-      <div class="poi-tools">
-  <div class="counter" id="selCounter">Kijelöltek: 0/10</div>
-  <button class="btn btn-accent" id="btnNaviSelected" type="button">🧭 Navi (kijelöltek)</button>
-  <button class="btn" id="btnClearSelected" type="button">Törlés</button>
-</div>
+      <div class="poi-tools"
+        style="background:rgba(0,0,0,0.45);padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,0.12);">
+        <div class="counter tu-count" id="selCounter">Kijelöltek: 0/10</div>
+        <<button class="btn btn-accent tu-sel-nav" id="btnNaviSelected" type="button">
+          🧭 Kijelölt útvonal navigáció
+          </button>
 
-<div class="grid" id="poiList">
+          <<button class="btn tu-sel-del" id="btnClearSelected" type="button">
+            Törlés
+            </button>
+
+      </div>
+
+      <div class="grid" id="poiList">
 
         <!-- P1 -->
         <div class="poi" id="p1">
@@ -173,7 +243,8 @@
               <div class="poi-title">1. Firenze, történelmi központ (Duomo környéke)</div>
               <div class="coords">43.769600, 11.255800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p1">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p1">mérés: várakozás</div>
@@ -185,7 +256,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_01_firenze_tortenelmi_kozpont_duomo_kornyeke.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.769600,11.255800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_01_firenze_tortenelmi_kozpont_duomo_kornyeke.jpg"
@@ -199,7 +270,8 @@
               <div class="poi-title">2. Siena, történelmi központ</div>
               <div class="coords">43.318800, 11.330800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p2">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p2">mérés: várakozás</div>
@@ -210,7 +282,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_02_siena_tortenelmi_kozpont.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.318800,11.330800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_02_siena_tortenelmi_kozpont.jpg" alt="Siena, történelmi központ">
@@ -223,7 +295,8 @@
               <div class="poi-title">3. Pisa, Piazza del Duomo</div>
               <div class="coords">43.723100, 10.396600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p3">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p3">mérés: várakozás</div>
@@ -234,7 +307,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_03_pisa_piazza_del_duomo.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.723100,10.396600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_03_pisa_piazza_del_duomo.jpg" alt="Pisa, Piazza del Duomo">
@@ -247,7 +320,8 @@
               <div class="poi-title">4. San Gimignano, óváros és tornyok</div>
               <div class="coords">43.467300, 11.043100</div>
             </div>
-            <button class="btn btn-measure" data-measure="p4">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p4">mérés: várakozás</div>
@@ -258,7 +332,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_04_san_gimignano_ovaros_es_tornyok.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.467300,11.043100"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_04_san_gimignano_ovaros_es_tornyok.jpg"
@@ -272,7 +346,8 @@
               <div class="poi-title">5. Val d’Orcia, tájkép Pienza környékén</div>
               <div class="coords">43.077700, 11.679200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p5">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p5">mérés: várakozás</div>
@@ -283,7 +358,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_05_val_d_orcia_tajkep_pienza_kornyeken.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.077700,11.679200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_05_val_d_orcia_tajkep_pienza_kornyeken.jpg"
@@ -298,7 +373,8 @@
               <div class="poi-title">6. Lucca, városfal és óváros</div>
               <div class="coords">43.842900, 10.502700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p6">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p6">mérés: várakozás</div>
@@ -309,7 +385,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_06_lucca_varosfal_es_ovaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.842900,10.502700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_06_lucca_varosfal_es_ovaros.jpg" alt="Lucca, városfal és óváros">
@@ -322,7 +398,8 @@
               <div class="poi-title">7. Chianti Classico, Greve in Chianti környéke</div>
               <div class="coords">43.585700, 11.316900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p7">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p7">mérés: várakozás</div>
@@ -333,7 +410,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_07_chianti_classico_greve_in_chianti_kornyeke.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.585700,11.316900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_07_chianti_classico_greve_in_chianti_kornyeke.jpg"
@@ -347,7 +424,8 @@
               <div class="poi-title">8. Arezzo, óváros</div>
               <div class="coords">43.463300, 11.879600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p8">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p8">mérés: várakozás</div>
@@ -358,7 +436,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_08_arezzo_ovaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.463300,11.879600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_08_arezzo_ovaros.jpg" alt="Arezzo, óváros">
@@ -371,7 +449,8 @@
               <div class="poi-title">9. Volterra, etruszk városmag</div>
               <div class="coords">43.401800, 10.860500</div>
             </div>
-            <button class="btn btn-measure" data-measure="p9">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p9">mérés: várakozás</div>
@@ -382,7 +461,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_09_volterra_etruszk_varosmag.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.401800,10.860500"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <div class="gsv-wrap">
@@ -399,7 +478,8 @@
               <div class="poi-title">10. Montepulciano, dombtető és borváros</div>
               <div class="coords">43.098700, 11.787200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p10">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p10">mérés: várakozás</div>
@@ -410,7 +490,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_10_montepulciano_dombteto_es_borvaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.098700,11.787200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <div class="gsv-wrap">
@@ -431,7 +511,8 @@
               <div class="poi-title">11. Pienza, reneszánsz ideális város</div>
               <div class="coords">43.077700, 11.679200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p11">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p11">mérés: várakozás</div>
@@ -442,7 +523,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_11_pienza_reneszansz_idealis_varos.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.077700,11.679200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <div class="gsv-wrap">
@@ -461,7 +542,8 @@
               <div class="poi-title">12. Montalcino, erőd és borvidék</div>
               <div class="coords">43.057600, 11.489000</div>
             </div>
-            <button class="btn btn-measure" data-measure="p12">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p12">mérés: várakozás</div>
@@ -472,7 +554,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_12_montalcino_erod_es_borvidek.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.057600,11.489000"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_12_montalcino_erod_es_borvidek.jpg"
@@ -486,7 +568,8 @@
               <div class="poi-title">13. Cortona, etruszk falak és panoráma</div>
               <div class="coords">43.274900, 11.986100</div>
             </div>
-            <button class="btn btn-measure" data-measure="p13">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p13">mérés: várakozás</div>
@@ -497,7 +580,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_13_cortona_etruszk_falak_es_panorama.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.274900,11.986100"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_13_cortona_etruszk_falak_es_panorama.jpg"
@@ -511,7 +594,8 @@
               <div class="poi-title">14. Abbazia di San Galgano, tető nélküli apátság</div>
               <div class="coords">43.149400, 11.155400</div>
             </div>
-            <button class="btn btn-measure" data-measure="p14">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p14">mérés: várakozás</div>
@@ -522,7 +606,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_14_abbazia_di_san_galgano_teto_nelkuli_apatsag.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.149400,11.155400"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_14_abbazia_di_san_galgano_teto_nelkuli_apatsag.jpg"
@@ -536,7 +620,8 @@
               <div class="poi-title">15. Pitigliano, tufasziklára épült város</div>
               <div class="coords">42.633900, 11.674300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p15">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p15">mérés: várakozás</div>
@@ -547,7 +632,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_15_pitigliano_tufasziklara_epult_varos.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.633900,11.674300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_15_pitigliano_tufasziklara_epult_varos.jpg"
@@ -561,7 +646,8 @@
               <div class="poi-title">16. Sovana, román kori székesegyház és etruszk környezet</div>
               <div class="coords">42.656800, 11.644700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p16">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p16">mérés: várakozás</div>
@@ -573,7 +659,7 @@
             <a class="btn btn-accent"
               href="POI_16_sovana_roman_kori_szekesegyhaz_es_etruszk_kornyeze.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.656800,11.644700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_16_sovana_roman_kori_szekesegyhaz_es_etruszk_kornyeze.jpg"
@@ -587,7 +673,8 @@
               <div class="poi-title">17. Saturnia, termálvidék</div>
               <div class="coords">42.666400, 11.504200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p17">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p17">mérés: várakozás</div>
@@ -598,7 +685,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_17_saturnia_termalvidek.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.666400,11.504200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_17_saturnia_termalvidek.jpg" alt="Saturnia, termálvidék">
@@ -611,7 +698,8 @@
               <div class="poi-title">18. Cascate del Mulino, Saturnia természetes vízesései</div>
               <div class="coords">42.648300, 11.512700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p18">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p18">mérés: várakozás</div>
@@ -622,7 +710,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_18_cascate_del_mulino_saturnia_termeszetes_vizesesei.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.648300,11.512700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_18_cascate_del_mulino_saturnia_termeszetes_vizesesei.jpg"
@@ -636,7 +724,8 @@
               <div class="poi-title">19. Bagni San Filippo, Fehér bálna termálképződmény</div>
               <div class="coords">42.926700, 11.700700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p19">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p19">mérés: várakozás</div>
@@ -647,7 +736,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_19_bagni_san_filippo_feher_balna_termalkepzodmeny.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.926700,11.700700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_19_bagni_san_filippo_feher_balna_termalkepzodmeny.jpg"
@@ -661,7 +750,8 @@
               <div class="poi-title">20. Isola d’Elba, Portoferraio</div>
               <div class="coords">42.813500, 10.312900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p20">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p20">mérés: várakozás</div>
@@ -672,7 +762,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_20_isola_d_elba_portoferraio.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.813500,10.312900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_20_isola_d_elba_portoferraio.jpg" alt="Isola d’Elba, Portoferraio">
@@ -685,7 +775,8 @@
               <div class="poi-title">21. Parco della Maremma, Alberese</div>
               <div class="coords">42.672000, 11.105000</div>
             </div>
-            <button class="btn btn-measure" data-measure="p21">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p21">mérés: várakozás</div>
@@ -696,7 +787,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_21_parco_della_maremma_alberese.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.672000,11.105000"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_21_parco_della_maremma_alberese.jpg"
@@ -710,7 +801,8 @@
               <div class="poi-title">22. Carrara, márványbányák környéke (Torano térség)</div>
               <div class="coords">44.111000, 10.133000</div>
             </div>
-            <button class="btn btn-measure" data-measure="p22">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p22">mérés: várakozás</div>
@@ -721,7 +813,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_22_carrara_marvanybanyak_kornyeke_torano_terseg.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=44.111000,10.133000"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_22_carrara_marvanybanyak_kornyeke_torano_terseg.jpg"
@@ -735,7 +827,8 @@
               <div class="poi-title">23. Monteriggioni, falakkal körbezárt település</div>
               <div class="coords">43.389800, 11.223500</div>
             </div>
-            <button class="btn btn-measure" data-measure="p23">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p23">mérés: várakozás</div>
@@ -746,7 +839,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_23_monteriggioni_falakkal_korbezart_telepules.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.389800,11.223500"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_23_monteriggioni_falakkal_korbezart_telepules.jpg"
@@ -760,7 +853,8 @@
               <div class="poi-title">24. Fiesole, római színház és firenzei panoráma</div>
               <div class="coords">43.805400, 11.293700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p24">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p24">mérés: várakozás</div>
@@ -771,7 +865,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_24_fiesole_romai_szinhaz_es_firenzei_panorama.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.805400,11.293700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_24_fiesole_romai_szinhaz_es_firenzei_panorama.jpg"
@@ -785,7 +879,8 @@
               <div class="poi-title">25. Populonia, etruszk örökség és tenger közeli hegyfok</div>
               <div class="coords">42.989400, 10.491400</div>
             </div>
-            <button class="btn btn-measure" data-measure="p25">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p25">mérés: várakozás</div>
@@ -797,7 +892,7 @@
             <a class="btn btn-accent"
               href="POI_25_populonia_etruszk_orokseg_es_tenger_kozeli_hegyfok.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.989400,10.491400"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_25_populonia_etruszk_orokseg_es_tenger_kozeli_hegyfok.jpg"
@@ -811,7 +906,8 @@
               <div class="poi-title">26. Monte Argentario, Porto Santo Stefano</div>
               <div class="coords">42.438600, 11.119800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p26">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p26">mérés: várakozás</div>
@@ -822,7 +918,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_26_monte_argentario_porto_santo_stefano.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.438600,11.119800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_26_monte_argentario_porto_santo_stefano.jpg"
@@ -836,7 +932,8 @@
               <div class="poi-title">27. Larderello, geotermikus vidék</div>
               <div class="coords">43.235700, 10.861300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p27">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p27">mérés: várakozás</div>
@@ -847,7 +944,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_27_larderello_geotermikus_videk.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.235700,10.861300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_27_larderello_geotermikus_videk.jpg"
@@ -861,7 +958,8 @@
               <div class="poi-title">28. Abbazia di Monte Oliveto Maggiore, bencés apátság</div>
               <div class="coords">43.175000, 11.541900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p28">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p28">mérés: várakozás</div>
@@ -872,7 +970,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_28_abbazia_di_monte_oliveto_maggiore_bences_apatsag.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.175000,11.541900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_28_abbazia_di_monte_oliveto_maggiore_bences_apatsag.jpg"
@@ -886,7 +984,8 @@
               <div class="poi-title">29. Santuario della Verna, zarándokhely a hegyen</div>
               <div class="coords">43.707300, 11.931300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p29">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p29">mérés: várakozás</div>
@@ -897,7 +996,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_29_santuario_della_verna_zarandokhely_a_hegyen.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.707300,11.931300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_29_santuario_della_verna_zarandokhely_a_hegyen.jpg"
@@ -911,7 +1010,8 @@
               <div class="poi-title">30. Grotta del Vento, barlang a Garfagnanában</div>
               <div class="coords">44.033700, 10.357900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p30">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p30">mérés: várakozás</div>
@@ -922,7 +1022,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_30_grotta_del_vento_barlang_a_garfagnanaban.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=44.033700,10.357900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_30_grotta_del_vento_barlang_a_garfagnanaban.jpg"
@@ -936,7 +1036,8 @@
               <div class="poi-title">31. Assisi, Basilica di San Francesco</div>
               <div class="coords">43.071500, 12.603300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p31">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p31">mérés: várakozás</div>
@@ -947,7 +1048,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_31_assisi_basilica_di_san_francesco.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.071500,12.603300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_31_assisi_basilica_di_san_francesco.jpg"
@@ -961,7 +1062,8 @@
               <div class="poi-title">32. Perugia, történelmi központ</div>
               <div class="coords">43.110700, 12.390800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p32">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p32">mérés: várakozás</div>
@@ -972,7 +1074,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_32_perugia_tortenelmi_kozpont.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.110700,12.390800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_32_perugia_tortenelmi_kozpont.jpg"
@@ -986,7 +1088,8 @@
               <div class="poi-title">33. Orvieto, dóm és tufaszikla város</div>
               <div class="coords">42.718500, 12.111600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p33">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p33">mérés: várakozás</div>
@@ -997,7 +1100,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_33_orvieto_dom_es_tufaszikla_varos.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.718500,12.111600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_33_orvieto_dom_es_tufaszikla_varos.jpg"
@@ -1011,7 +1114,8 @@
               <div class="poi-title">34. Spoleto, óváros és erődvárosi látkép</div>
               <div class="coords">42.740300, 12.738800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p34">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p34">mérés: várakozás</div>
@@ -1022,7 +1126,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_34_spoleto_ovaros_es_erodvarosi_latkep.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.740300,12.738800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_34_spoleto_ovaros_es_erodvarosi_latkep.jpg"
@@ -1036,7 +1140,8 @@
               <div class="poi-title">35. Gubbio, középkori kőváros</div>
               <div class="coords">43.352000, 12.579600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p35">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p35">mérés: várakozás</div>
@@ -1047,7 +1152,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_35_gubbio_kozepkori_kovaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.352000,12.579600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_35_gubbio_kozepkori_kovaros.jpg" alt="Gubbio, középkori kőváros">
@@ -1060,7 +1165,8 @@
               <div class="poi-title">36. Cascata delle Marmore, vízesés</div>
               <div class="coords">42.553300, 12.718300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p36">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p36">mérés: várakozás</div>
@@ -1071,7 +1177,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_36_cascata_delle_marmore_vizeses.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.553300,12.718300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_36_cascata_delle_marmore_vizeses.jpg"
@@ -1085,7 +1191,8 @@
               <div class="poi-title">37. Lago Trasimeno, Passignano sul Trasimeno</div>
               <div class="coords">43.188200, 12.132700</div>
             </div>
-            <button class="btn btn-measure" data-measure="p37">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p37">mérés: várakozás</div>
@@ -1096,7 +1203,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_37_lago_trasimeno_passignano_sul_trasimeno.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.188200,12.132700"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_37_lago_trasimeno_passignano_sul_trasimeno.jpg"
@@ -1110,7 +1217,8 @@
               <div class="poi-title">38. Norcia, hegyvidéki város</div>
               <div class="coords">42.793900, 13.094900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p38">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p38">mérés: várakozás</div>
@@ -1121,7 +1229,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_38_norcia_hegyvideki_varos.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.793900,13.094900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_38_norcia_hegyvideki_varos.jpg" alt="Norcia, hegyvidéki város">
@@ -1134,7 +1242,8 @@
               <div class="poi-title">39. Castelluccio di Norcia, Pian Grande</div>
               <div class="coords">42.813700, 13.190600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p39">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p39">mérés: várakozás</div>
@@ -1145,7 +1254,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_39_castelluccio_di_norcia_pian_grande.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.813700,13.190600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_39_castelluccio_di_norcia_pian_grande.jpg"
@@ -1159,7 +1268,8 @@
               <div class="poi-title">40. Montefalco, bor és panoráma</div>
               <div class="coords">42.892500, 12.648200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p40">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p40">mérés: várakozás</div>
@@ -1170,7 +1280,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_40_montefalco_bor_es_panorama.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.892500,12.648200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_40_montefalco_bor_es_panorama.jpg"
@@ -1184,7 +1294,8 @@
               <div class="poi-title">41. Spello, virágos kőváros</div>
               <div class="coords">42.991300, 12.671200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p41">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p41">mérés: várakozás</div>
@@ -1195,7 +1306,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_41_spello_viragos_kovaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.991300,12.671200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_41_spello_viragos_kovaros.jpg" alt="Spello, virágos kőváros">
@@ -1208,7 +1319,8 @@
               <div class="poi-title">42. Todi, történelmi központ</div>
               <div class="coords">42.780700, 12.409800</div>
             </div>
-            <button class="btn btn-measure" data-measure="p42">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p42">mérés: várakozás</div>
@@ -1219,7 +1331,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_42_todi_tortenelmi_kozpont.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.780700,12.409800"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_42_todi_tortenelmi_kozpont.jpg" alt="Todi, történelmi központ">
@@ -1232,7 +1344,8 @@
               <div class="poi-title">43. Narni, sziklaváros hangulat</div>
               <div class="coords">42.517800, 12.515000</div>
             </div>
-            <button class="btn btn-measure" data-measure="p43">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p43">mérés: várakozás</div>
@@ -1243,7 +1356,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_43_narni_sziklavaros_hangulat.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.517800,12.515000"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_43_narni_sziklavaros_hangulat.jpg"
@@ -1257,7 +1370,8 @@
               <div class="poi-title">44. Bevagna, kisvárosi középkor</div>
               <div class="coords">42.932200, 12.607500</div>
             </div>
-            <button class="btn btn-measure" data-measure="p44">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p44">mérés: várakozás</div>
@@ -1268,7 +1382,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_44_bevagna_kisvarosi_kozepkor.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.932200,12.607500"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_44_bevagna_kisvarosi_kozepkor.jpg"
@@ -1282,7 +1396,8 @@
               <div class="poi-title">45. Trevi, dombtető és olajligetek</div>
               <div class="coords">42.877100, 12.748600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p45">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p45">mérés: várakozás</div>
@@ -1293,7 +1408,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_45_trevi_dombteto_es_olajligetek.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.877100,12.748600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_45_trevi_dombteto_es_olajligetek.jpg"
@@ -1307,7 +1422,8 @@
               <div class="poi-title">46. Cascia, Santa Rita kegyhelye</div>
               <div class="coords">42.719700, 13.014600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p46">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p46">mérés: várakozás</div>
@@ -1318,7 +1434,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_46_cascia_santa_rita_kegyhelye.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.719700,13.014600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_46_cascia_santa_rita_kegyhelye.jpg"
@@ -1332,7 +1448,8 @@
               <div class="poi-title">47. Carsulae, régészeti park</div>
               <div class="coords">42.637200, 12.554300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p47">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p47">mérés: várakozás</div>
@@ -1343,7 +1460,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_47_carsulae_regeszeti_park.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.637200,12.554300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_47_carsulae_regeszeti_park.jpg" alt="Carsulae, régészeti park">
@@ -1356,7 +1473,8 @@
               <div class="poi-title">48. Tempietto del Clitunno, kis templom</div>
               <div class="coords">42.842200, 12.756900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p48">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p48">mérés: várakozás</div>
@@ -1367,7 +1485,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_48_tempietto_del_clitunno_kis_templom.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.842200,12.756900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_48_tempietto_del_clitunno_kis_templom.jpg"
@@ -1381,7 +1499,8 @@
               <div class="poi-title">49. Fonti del Clitunno, forrásvidék</div>
               <div class="coords">42.822100, 12.783300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p49">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p49">mérés: várakozás</div>
@@ -1392,7 +1511,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_49_fonti_del_clitunno_forrasvidek.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.822100,12.783300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_49_fonti_del_clitunno_forrasvidek.jpg"
@@ -1406,7 +1525,8 @@
               <div class="poi-title">50. Abbazia di Sassovivo, apátság Foligno mellett</div>
               <div class="coords">42.956700, 12.761900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p50">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p50">mérés: várakozás</div>
@@ -1417,7 +1537,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_50_abbazia_di_sassovivo_apatsag_foligno_mellett.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.956700,12.761900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_50_abbazia_di_sassovivo_apatsag_foligno_mellett.jpg"
@@ -1431,7 +1551,8 @@
               <div class="poi-title">51. La Scarzuola, különleges építészeti és szimbolikus hely</div>
               <div class="coords">42.898800, 12.153300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p51">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p51">mérés: várakozás</div>
@@ -1442,7 +1563,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_51_la_scarzuola_kulonleges_epiteszeti_es_szimbolikus.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.898800,12.153300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_51_la_scarzuola_kulonleges_epiteszeti_es_szimbolikus.jpg"
@@ -1456,7 +1577,8 @@
               <div class="poi-title">52. Città della Pieve, umbriai határváros</div>
               <div class="coords">42.953100, 12.005200</div>
             </div>
-            <button class="btn btn-measure" data-measure="p52">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p52">mérés: várakozás</div>
@@ -1467,7 +1589,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_52_citta_della_pieve_umbriai_hatarvaros.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.953100,12.005200"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_52_citta_della_pieve_umbriai_hatarvaros.jpg"
@@ -1481,7 +1603,8 @@
               <div class="poi-title">53. Panicale, kilátós kisváros a tó közelében</div>
               <div class="coords">43.028000, 12.100500</div>
             </div>
-            <button class="btn btn-measure" data-measure="p53">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p53">mérés: várakozás</div>
@@ -1492,7 +1615,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_53_panicale_kilatos_kisvaros_a_to_kozeleben.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.028000,12.100500"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_53_panicale_kilatos_kisvaros_a_to_kozeleben.jpg"
@@ -1506,7 +1629,8 @@
               <div class="poi-title">54. Lago di Piediluco, tó Terni közelében</div>
               <div class="coords">42.533600, 12.747600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p54">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p54">mérés: várakozás</div>
@@ -1517,7 +1641,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_54_lago_di_piediluco_to_terni_kozeleben.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.533600,12.747600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_54_lago_di_piediluco_to_terni_kozeleben.jpg"
@@ -1531,7 +1655,8 @@
               <div class="poi-title">55. Abbazia di San Pietro in Valle, Ferentillo</div>
               <div class="coords">42.645400, 12.811500</div>
             </div>
-            <button class="btn btn-measure" data-measure="p55">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p55">mérés: várakozás</div>
@@ -1542,7 +1667,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_55_abbazia_di_san_pietro_in_valle_ferentillo.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.645400,12.811500"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_55_abbazia_di_san_pietro_in_valle_ferentillo.jpg"
@@ -1556,7 +1681,8 @@
               <div class="poi-title">56. Rocca Albornoziana, Spoleto vára</div>
               <div class="coords">42.734300, 12.741900</div>
             </div>
-            <button class="btn btn-measure" data-measure="p56">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p56">mérés: várakozás</div>
@@ -1567,7 +1693,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_56_rocca_albornoziana_spoleto_vara.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.734300,12.741900"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_56_rocca_albornoziana_spoleto_vara.jpg"
@@ -1581,7 +1707,8 @@
               <div class="poi-title">57. Ponte delle Torri, Spoleto híres hídja</div>
               <div class="coords">42.733100, 12.743600</div>
             </div>
-            <button class="btn btn-measure" data-measure="p57">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p57">mérés: várakozás</div>
@@ -1592,7 +1719,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_57_ponte_delle_torri_spoleto_hires_hidja.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.733100,12.743600"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_57_ponte_delle_torri_spoleto_hires_hidja.jpg"
@@ -1606,7 +1733,8 @@
               <div class="poi-title">58. Basilica di Santa Maria degli Angeli, Assisi alatt</div>
               <div class="coords">43.055000, 12.575000</div>
             </div>
-            <button class="btn btn-measure" data-measure="p58">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p58">mérés: várakozás</div>
@@ -1617,7 +1745,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_58_basilica_di_santa_maria_degli_angeli_assisi_alatt.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.055000,12.575000"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_58_basilica_di_santa_maria_degli_angeli_assisi_alatt.jpg"
@@ -1631,7 +1759,8 @@
               <div class="poi-title">59. Eremo delle Carceri, Assisi felett</div>
               <div class="coords">43.063100, 12.652100</div>
             </div>
-            <button class="btn btn-measure" data-measure="p59">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p59">mérés: várakozás</div>
@@ -1642,7 +1771,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_59_eremo_delle_carceri_assisi_felett.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=43.063100,12.652100"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_59_eremo_delle_carceri_assisi_felett.jpg"
@@ -1656,7 +1785,8 @@
               <div class="poi-title">60. Pozzo di San Patrizio, Orvieto kútja</div>
               <div class="coords">42.722500, 12.120300</div>
             </div>
-            <button class="btn btn-measure" data-measure="p60">mérés</button>
+            <button class="btn btn-route-mini" style="font-size:11px;line-height:1.1" type="button"
+              data-nav-selected="1">Kijelölt útvonal<br>navigáció</button>
           </div>
 
           <div class="small" data-state="p60">mérés: várakozás</div>
@@ -1667,7 +1797,7 @@
           <div class="poibtns">
             <a class="btn btn-accent" href="POI_60_pozzo_di_san_patrizio_orvieto_kutja.html">Részletek</a>
             <a class="btn btn-blue" href="https://www.google.com/maps/dir/?api=1&destination=42.722500,12.120300"
-              target="_blank" rel="noopener">🧭 Navigáció</a>
+              target="_blank" rel="noopener">🧭 Navigáció ehhez a ponthoz</a>
           </div>
 
           <img class="inline-image" src="images/poi_60_pozzo_di_san_patrizio_orvieto_kutja.jpg"
@@ -1678,281 +1808,28 @@
 
       <div style="height:16px"></div>
       <div class="card">
-  <div class="h1">Térkép</div>
-  <div class="small">
-    A térkép fixen a lap alján látszik.
-    Kék jelölők: POI pontok, piros: aktuális pozíciód (ha engedélyezed).
-    Zöld sorszámos jelölők: a kijelölt útvonal pontjai.
-  </div>
-</div>
+        <div class="h1">Térkép</div>
+        <div class="small">
+          A térkép fixen a lap alján látszik.
+          Kék jelölők: POI pontok, piros: aktuális pozíciód (ha engedélyezed).
+          Zöld sorszámos jelölők: a kijelölt útvonal pontjai.
+        </div>
+      </div>
 
     </div>
   </div>
 
-  <div class="map-dock"><div class="map-frame"><div id="map"></div></div></div>
+  <div class="map-dock">
+    <div class="map-frame">
+      <div id="map"></div>
+    </div>
+  </div>
 
-<script src="assets/js/gps.js"></script>
+  <script src="assets/js/gps.js"></script>
   <script src="assets/js/page_toscana_umbria.js"></script>
 
-<script>
-  // Kijelölés + rendezés + Navi modul
-  (function () {
-    const MAX = 10;
 
-    function readPoisFromDom() {
-      const nodes = Array.from(document.querySelectorAll('.poi[id^="p"]'));
-      const out = [];
-      for (const el of nodes) {
-        const id = el.id;
-        const titleEl = el.querySelector('.poi-title');
-        const coordsEl = el.querySelector('.coords');
-        if (!titleEl || !coordsEl) continue;
-
-        const name = titleEl.textContent.trim();
-        const m = coordsEl.textContent.trim().match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
-        if (!m) continue;
-
-        const lat = parseFloat(m[1]);
-        const lon = parseFloat(m[2]);
-        if (!isFinite(lat) || !isFinite(lon)) continue;
-
-        out.push({ id, name, lat, lon });
-      }
-      return out;
-    }
-
-    function waitForMap(cb) {
-      let tries = 0;
-      const timer = setInterval(() => {
-        const m = window.map;
-        if (m && window.L && typeof m.getCenter === "function") {
-          clearInterval(timer);
-          cb(m);
-          return;
-        }
-        tries++;
-        if (tries > 80) {  // kb 16 másodperc
-          clearInterval(timer);
-          console.warn("Nem találom a globális 'map' változót. Ha kell, a page_toscana_umbria.js-ben a map létrehozás után írd be: window.map = map;");
-        }
-      }, 200);
-    }
-
-    function makeNumberIcon(n) {
-      return L.divIcon({
-        className: "",
-        html: `<div class="num-pin">${n}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      });
-    }
-
-    function injectPickUi(poiId) {
-      const el = document.getElementById(poiId);
-      if (!el) return null;
-      const head = el.querySelector(".poi-head");
-      if (!head) return null;
-      if (head.querySelector(".pick-ui")) return null;
-
-      const ui = document.createElement("div");
-      ui.className = "pick-ui";
-
-      const check = document.createElement("input");
-      check.type = "checkbox";
-      check.className = "poi-check";
-      check.dataset.poiId = poiId;
-
-      const badge = document.createElement("div");
-      badge.className = "pick-badge";
-      badge.textContent = "—/10";
-
-      const arrows = document.createElement("div");
-      arrows.className = "pick-arrows";
-
-      const up = document.createElement("button");
-      up.type = "button";
-      up.className = "pick-arrow";
-      up.textContent = "▲";
-      up.disabled = true;
-
-      const down = document.createElement("button");
-      down.type = "button";
-      down.className = "pick-arrow";
-      down.textContent = "▼";
-      down.disabled = true;
-
-      arrows.appendChild(up);
-      arrows.appendChild(down);
-
-      ui.appendChild(check);
-      ui.appendChild(badge);
-      ui.appendChild(arrows);
-
-      const left = head.firstElementChild; if (left) left.appendChild(ui); else head.appendChild(ui);
-
-      return { check, badge, up, down };
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const POIS = readPoisFromDom();
-      if (!POIS.length) return;
-
-      waitForMap((map) => {
-        const byId = new Map(POIS.map(p => [p.id, p]));
-        const order = [];
-
-        const selectedLayer = L.layerGroup().addTo(map);
-
-        const uiById = new Map();
-        for (const p of POIS) {
-          const ui = injectPickUi(p.id);
-          if (ui) uiById.set(p.id, ui);
-        }
-
-        function refreshCounter() {
-          const el = document.getElementById("selCounter");
-          if (el) el.textContent = `Kijelöltek: ${order.length}/10`;
-        }
-
-        function refreshRowStyles() {
-          for (const p of POIS) {
-            const el = document.getElementById(p.id);
-            if (!el) continue;
-            el.classList.toggle("selected", order.includes(p.id));
-          }
-        }
-
-        function refreshBadgesAndArrows() {
-          for (const p of POIS) {
-            const ui = uiById.get(p.id);
-            if (!ui) continue;
-
-            const idx = order.indexOf(p.id);
-            if (idx === -1) {
-              ui.badge.textContent = "—/10";
-              ui.up.disabled = true;
-              ui.down.disabled = true;
-              ui.check.checked = false;
-            } else {
-              ui.badge.textContent = `${idx + 1}/10`;
-              ui.up.disabled = idx === 0;
-              ui.down.disabled = idx === order.length - 1;
-              ui.check.checked = true;
-            }
-          }
-        }
-
-        function refreshSelectedMarkers() {
-          selectedLayer.clearLayers();
-          order.forEach((id, i) => {
-            const p = byId.get(id);
-            if (!p) return;
-            L.marker([p.lat, p.lon], { icon: makeNumberIcon(i + 1) })
-              .addTo(selectedLayer)
-              .bindTooltip(`${i + 1}. ${p.name}`, { direction: "top", sticky: true });
-          });
-        }
-
-        function refreshAll() {
-          refreshCounter();
-          refreshRowStyles();
-          refreshBadgesAndArrows();
-          refreshSelectedMarkers();
-        }
-
-        function select(id) {
-          if (order.includes(id)) return;
-          if (order.length >= MAX) {
-            const ui = uiById.get(id);
-            if (ui) ui.check.checked = false;
-            alert("Maximum 10 POI választható ki a navira.");
-            return;
-          }
-          order.push(id);
-          refreshAll();
-
-          const p = byId.get(id);
-          if (p) map.flyTo([p.lat, p.lon], Math.max(map.getZoom(), 10), { animate: true, duration: 0.5 });
-        }
-
-        function unselect(id) {
-          const idx = order.indexOf(id);
-          if (idx === -1) return;
-          order.splice(idx, 1);
-          refreshAll();
-        }
-
-        function moveUp(id) {
-          const idx = order.indexOf(id);
-          if (idx <= 0) return;
-          const t = order[idx - 1];
-          order[idx - 1] = order[idx];
-          order[idx] = t;
-          refreshAll();
-        }
-
-        function moveDown(id) {
-          const idx = order.indexOf(id);
-          if (idx === -1 || idx >= order.length - 1) return;
-          const t = order[idx + 1];
-          order[idx + 1] = order[idx];
-          order[idx] = t;
-          refreshAll();
-        }
-
-        uiById.forEach((ui, id) => {
-          ui.check.addEventListener("change", () => {
-            if (ui.check.checked) select(id);
-            else unselect(id);
-          });
-          ui.up.addEventListener("click", () => moveUp(id));
-          ui.down.addEventListener("click", () => moveDown(id));
-        });
-
-        function buildGmapsUrl() {
-          if (order.length === 0) return null;
-
-          const pts = order.map(id => byId.get(id)).filter(Boolean);
-          const last = pts[pts.length - 1];
-          const destination = `${last.lat},${last.lon}`;
-
-          const waypoints = pts.length > 1
-            ? pts.slice(0, -1).map(p => `${p.lat},${p.lon}`).join("|")
-            : "";
-
-          const base = "https://www.google.com/maps/dir/?api=1";
-          const params = new URLSearchParams();
-          params.set("travelmode", "driving");
-          params.set("destination", destination);
-          if (waypoints) params.set("waypoints", waypoints);
-
-          return `${base}&${params.toString()}`;
-        }
-
-        document.getElementById("btnNaviSelected")?.addEventListener("click", () => {
-          const url = buildGmapsUrl();
-          if (!url) {
-            alert("Pipálj ki legalább 1 POI pontot.");
-            return;
-          }
-          window.open(url, "_blank");
-        });
-
-        document.getElementById("btnClearSelected")?.addEventListener("click", () => {
-          order.splice(0, order.length);
-          refreshAll();
-        });
-
-        setTimeout(() => map.invalidateSize(), 250);
-        window.addEventListener("resize", () => setTimeout(() => map.invalidateSize(), 120));
-
-        refreshAll();
-      });
-    });
-  })();
-</script>
 
 </body>
 
 </html>
-
