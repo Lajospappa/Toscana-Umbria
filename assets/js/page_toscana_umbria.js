@@ -1,7 +1,7 @@
-﻿/* global L, getPos, haversineMeters, fmtMeters, measureToPoi, measureNearest */
-/* Toszkána és Umbria oldal logika */
-
+/* global L, getPos, haversineMeters, fmtMeters, measureToPoi, measureNearest */
 "use strict";
+
+/* Toszkána és Umbria oldal logika */
 
 const DAY_ID = "toscana-umbria";
 const MAX_SEL = 10;
@@ -70,6 +70,17 @@ const POIS = [
   { id: "p60", name: "Pozzo di San Patrizio, Orvieto kútja", lat: 42.722500, lon: 12.120300 }
 ];
 
+/* ===== segédek ===== */
+
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function setState(id, txt) {
   const el = document.querySelector(`[data-state="${id}"]`);
   if (el) el.textContent = txt;
@@ -85,16 +96,7 @@ function scrollToPoi(id) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-/* ===== KIJELÖLÉS LOGIKA ===== */
+/* ===== kijelölés ===== */
 
 let selected = [];
 
@@ -116,50 +118,6 @@ function saveSelected() {
   } catch {
     /* ignore */
   }
-}
-
-function flashSelbar() {
-  const bar = document.getElementById("selbar");
-  if (!bar) return;
-  bar.classList.remove("flash");
-  void bar.offsetWidth;
-  bar.classList.add("flash");
-}
-
-function setSelectedState(id, on) {
-  const idx = selected.indexOf(id);
-
-  if (on) {
-    if (idx >= 0) return;
-    if (selected.length >= MAX_SEL) {
-      flashSelbar();
-      refreshSelectionUi();
-      return;
-    }
-    selected.push(id);
-  } else {
-    if (idx < 0) return;
-    selected.splice(idx, 1);
-  }
-
-  saveSelected();
-  refreshSelectionUi();
-}
-
-function toggleSelected(id) {
-  setSelectedState(id, selected.indexOf(id) < 0);
-}
-
-function moveSelected(id, dir) {
-  const idx = selected.indexOf(id);
-  if (idx < 0) return;
-  const ni = idx + dir;
-  if (ni < 0 || ni >= selected.length) return;
-  const tmp = selected[idx];
-  selected[idx] = selected[ni];
-  selected[ni] = tmp;
-  saveSelected();
-  refreshSelectionUi();
 }
 
 function buildGmapsUrl() {
@@ -192,102 +150,48 @@ function buildGmapsUrl() {
   return url;
 }
 
-/* ===== KIJELÖLÉS UI BEKÖTÉS ===== */
-
-function ensureMapFrame() {
-  const mapEl = document.getElementById("map");
-  if (!mapEl) return;
-
-  const parent = mapEl.parentElement;
-  if (!parent) return;
-
-  if (!parent.classList.contains("map-frame")) {
-    const wrap = document.createElement("div");
-    wrap.className = "map-frame";
-    parent.insertBefore(wrap, mapEl);
-    wrap.appendChild(mapEl);
+function openSelectedRoute() {
+  const url = buildGmapsUrl();
+  if (!url) {
+    alert("Pipálj ki legalább 1 POI pontot.");
+    return;
   }
+  window.open(url, "_blank", "noopener");
 }
 
-function removeLegacySelectionBars() {
-  const legacyBtns = Array.from(document.querySelectorAll("button"))
-    .filter(b => (b.textContent || "").trim() === "Navi (kijelöltek)");
+function setSelectedState(id, on) {
+  const idx = selected.indexOf(id);
 
-  for (const b of legacyBtns) {
-    let el = b;
-    for (let i = 0; i < 7; i++) {
-      if (!el) break;
-      const t = el.textContent || "";
-      if (t.includes("Kijelöltek:") && t.includes("Törlés") && t.includes("Navi (kijelöltek)")) {
-        el.classList.add("legacy-selbar");
-        el.remove();
-        break;
-      }
-      el = el.parentElement;
+  if (on) {
+    if (idx >= 0) return;
+    if (selected.length >= MAX_SEL) {
+      alert("Maximum 10 POI választható ki a navira.");
+      refreshSelectionUi();
+      return;
     }
-  }
-}
-
-function ensureSelbar() {
-  removeLegacySelectionBars();
-
-  let bar = document.getElementById("selbar");
-  if (!bar) {
-    bar = document.createElement("div");
-    bar.id = "selbar";
-    bar.innerHTML = `
-      <div class="selcount" id="selCount">Kijelöltek: 0/${MAX_SEL}</div>
-      <button class="btn btn-gmaps" id="btnGmaps" type="button">🧭 Gmaps navigáció indítása</button>
-      <button class="btn btn-clear" id="btnClear" type="button">Törlés</button>
-    `;
-
-    const topbar = document.querySelector(".topbar");
-    if (topbar && typeof topbar.after === "function") {
-      topbar.after(bar);
-    } else {
-      document.body.insertBefore(bar, document.body.firstChild);
-    }
+    selected.push(id);
   } else {
-    const topbar = document.querySelector(".topbar");
-    if (topbar && typeof topbar.after === "function") {
-      topbar.after(bar);
-    }
+    if (idx < 0) return;
+    selected.splice(idx, 1);
   }
 
-  document.getElementById("btnGmaps")?.addEventListener("click", () => {
-    const url = buildGmapsUrl();
-    if (!url) return;
-    window.open(url, "_blank", "noopener");
-  });
-
-  document.getElementById("btnClear")?.addEventListener("click", () => {
-    selected = [];
-    saveSelected();
-    refreshSelectionUi();
-  });
+  saveSelected();
+  refreshSelectionUi();
 }
 
-function findLegacyPickRow(card) {
-  if (!card) return null;
-
-  let row = card.querySelector(".pickrow, .selrow, .selectrow, .pickbar, .selctl");
-  if (row) return row;
-
-  const cb = card.querySelector('input[type="checkbox"]');
-  if (cb) {
-    const maybe = cb.closest("div");
-    if (maybe && maybe !== card) return maybe;
-  }
-
-  const btns = Array.from(card.querySelectorAll("button"));
-  const pickBtn = btns.find(b => ((b.textContent || "").toLowerCase().includes("kijelöl")));
-  if (pickBtn) {
-    const wrap = pickBtn.closest("div");
-    if (wrap) return wrap;
-  }
-
-  return null;
+function moveSelected(id, dir) {
+  const idx = selected.indexOf(id);
+  if (idx < 0) return;
+  const ni = idx + dir;
+  if (ni < 0 || ni >= selected.length) return;
+  const tmp = selected[idx];
+  selected[idx] = selected[ni];
+  selected[ni] = tmp;
+  saveSelected();
+  refreshSelectionUi();
 }
+
+/* ===== pick UI injektálás (a te CSS-edhez) ===== */
 
 function ensurePoiPickControls() {
   for (const p of POIS) {
@@ -297,195 +201,85 @@ function ensurePoiPickControls() {
     const head = card.querySelector(".poi-head");
     if (!head) continue;
 
-    let ctl = head.querySelector(`.selctl[data-selwrap="${p.id}"]`);
+    const left = head.firstElementChild;
+    if (!left) continue;
 
-    if (!ctl) {
-      const legacy = findLegacyPickRow(card);
+    if (left.querySelector(`.pick-ui[data-pick="${p.id}"]`)) continue;
 
-      ctl = document.createElement("div");
-      ctl.className = "selctl";
-      ctl.setAttribute("data-selwrap", p.id);
+    const ui = document.createElement("div");
+    ui.className = "pick-ui";
+    ui.setAttribute("data-pick", p.id);
 
-      const inner = document.createElement("div");
-      inner.className = "selbox";
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.className = "poi-check";
+    check.setAttribute("data-sel", p.id);
 
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.className = "selcheck";
-      cb.setAttribute("data-sel", p.id);
+    const badge = document.createElement("div");
+    badge.className = "pick-badge";
+    badge.setAttribute("data-selpos", p.id);
+    badge.textContent = `—/${MAX_SEL}`;
 
-      const lbl = document.createElement("span");
-      lbl.textContent = "kijelöl";
+    const arrows = document.createElement("div");
+    arrows.className = "pick-arrows";
 
-      inner.appendChild(cb);
-      inner.appendChild(lbl);
+    const up = document.createElement("button");
+    up.type = "button";
+    up.className = "pick-arrow";
+    up.textContent = "▲";
+    up.setAttribute("data-move", "up");
+    up.setAttribute("data-id", p.id);
 
-      const pos = document.createElement("span");
-      pos.className = "selpos";
-      pos.setAttribute("data-selpos", p.id);
-      pos.textContent = `—/${MAX_SEL}`;
+    const down = document.createElement("button");
+    down.type = "button";
+    down.className = "pick-arrow";
+    down.textContent = "▼";
+    down.setAttribute("data-move", "down");
+    down.setAttribute("data-id", p.id);
 
-      const up = document.createElement("button");
-      up.type = "button";
-      up.className = "btn-mini";
-      up.setAttribute("data-move", "up");
-      up.setAttribute("data-id", p.id);
-      up.textContent = "↑";
+    arrows.appendChild(up);
+    arrows.appendChild(down);
 
-      const down = document.createElement("button");
-      down.type = "button";
-      down.className = "btn-mini";
-      down.setAttribute("data-move", "down");
-      down.setAttribute("data-id", p.id);
-      down.textContent = "↓";
+    ui.appendChild(check);
+    ui.appendChild(badge);
+    ui.appendChild(arrows);
 
-      ctl.appendChild(inner);
-      ctl.appendChild(pos);
-      ctl.appendChild(up);
-      ctl.appendChild(down);
-
-      if (legacy && legacy !== ctl) {
-        legacy.remove();
-      }
-
-      const measureBtn = head.querySelector(`[data-measure="${p.id}"]`);
-      if (measureBtn && measureBtn.parentElement) {
-        measureBtn.parentElement.insertBefore(ctl, measureBtn);
-      } else {
-        head.appendChild(ctl);
-      }
-    }
+    left.appendChild(ui);
   }
 }
 
-function refreshSelectionUi() {
-  const countEl = document.getElementById("selCount");
-  if (countEl) countEl.textContent = `Kijelöltek: ${selected.length}/${MAX_SEL}`;
-
-  const gbtn = document.getElementById("btnGmaps");
-  if (gbtn) gbtn.disabled = (selected.length === 0);
-
-  for (const p of POIS) {
-    const idx = selected.indexOf(p.id);
-    const on = idx >= 0;
-
-    const card = document.getElementById(p.id);
-    if (card) card.classList.toggle("selected", on);
-
-    const pos = document.querySelector(`[data-selpos="${p.id}"]`);
-    if (pos) pos.textContent = on ? `${idx + 1}/${MAX_SEL}` : `—/${MAX_SEL}`;
-
-    const cb = document.querySelector(`input[type="checkbox"][data-sel="${p.id}"]`);
-    if (cb) cb.checked = on;
-
-    const up = document.querySelector(`[data-move="up"][data-id="${p.id}"]`);
-    const down = document.querySelector(`[data-move="down"][data-id="${p.id}"]`);
-    if (up) up.disabled = (!on || idx === 0);
-    if (down) down.disabled = (!on || idx === selected.length - 1);
-
-    const m = poiMarkers.get(p.id);
-    if (m) {
-      if (on) {
-      m.setIcon(numberedGreenIcon(idx + 1));
-    } else {
-      m.setIcon(poiIconBlue);
-    }
-      m.setZIndexOffset(on ? 800 : 0);
-    }
-  }
-}
-
-/* ===== TÁVOLSÁG MÉRÉS ===== */
-
-async function measureAll(scrollToNearest) {
-  try {
-    const pos = await getPos();
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-
-    let nearest = null;
-
-    for (const p of POIS) {
-      const dist = haversineMeters(lat, lon, p.lat, p.lon);
-      setDist(p.id, fmtMeters(dist));
-      setState(p.id, "mérés: frissítve");
-
-      if (!nearest || dist < nearest.dist) {
-        nearest = { id: p.id, dist };
-      }
-    }
-
-    if (scrollToNearest && nearest) {
-      scrollToPoi(nearest.id);
-    }
-
-    if (map) {
-      if (!userMarker) {
-        userMarker = L.marker([lat, lon], { icon: userIconRed })
-          .addTo(map)
-          .bindPopup("Itt vagyok");
-      } else {
-        userMarker.setLatLng([lat, lon]);
-      }
-    }
-  } catch (e) {
-    const n = document.getElementById("gpsNotice");
-    if (n) n.style.display = "block";
-  }
-}
-
-async function measureOne(id) {
-  const poi = POIS.find(x => x.id === id);
-  if (!poi) return;
-
-  try {
-    const r = await measureToPoi(DAY_ID, poi);
-    setDist(id, fmtMeters(r.dist));
-    setState(id, "mérés: " + r.ind.text);
-
-    const btn = document.querySelector(`[data-measure="${id}"]`);
-    if (btn) btn.classList.add("active");
-  } catch (e) {
-    const n = document.getElementById("gpsNotice");
-    if (n) n.style.display = "block";
-  }
-}
-
-/* ===== TÉRKÉP ===== */
+/* ===== térkép ===== */
 
 let map = null;
 let userMarker = null;
 
-const userIconRed = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-const poiIconBlue = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-const poiIconGreen = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-
-
+const poiMarkers = new Map();
 const __selIconCache = new Map();
+
+let userIconRed = null;
+let poiIconBlue = null;
+
+function initIcons() {
+  if (!window.L) return;
+
+  userIconRed = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+  poiIconBlue = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+}
 
 function numberedGreenIcon(n) {
   const key = String(n);
@@ -501,8 +295,8 @@ function numberedGreenIcon(n) {
                      'background:rgba(255,255,255,0.88);color:#111;font-weight:900;font-size:12px;' +
                      'line-height:16px;text-align:center;border:1px solid rgba(0,0,0,0.18);' +
                      'box-shadow:0 1px 2px rgba(0,0,0,0.25);">' + key + '</span>' +
-      '</div>' +
-    '</div>';
+      "</div>" +
+    "</div>";
 
   const icon = L.divIcon({
     className: "",
@@ -515,11 +309,12 @@ function numberedGreenIcon(n) {
   __selIconCache.set(key, icon);
   return icon;
 }
-const poiMarkers = new Map();
 
 function initMap() {
   const mapEl = document.getElementById("map");
   if (!mapEl || !window.L) return;
+
+  initIcons();
 
   map = L.map("map", { doubleClickZoom: false });
   map.doubleClickZoom.disable();
@@ -567,32 +362,112 @@ function initMap() {
   if (bounds.length) {
     map.fitBounds(bounds, { padding: [30, 30] });
   }
+
+  window.map = map;
+
+  setTimeout(() => {
+    try { map.invalidateSize(); } catch { /* ignore */ }
+  }, 250);
 }
 
+/* ===== UI frissítés ===== */
+
+function refreshSelectionUi() {
+  const countEl = document.getElementById("selCounter");
+  if (countEl) countEl.textContent = `Kijelöltek: ${selected.length}/${MAX_SEL}`;
+
+  const gbtn = document.getElementById("btnNaviSelected");
+  if (gbtn) gbtn.disabled = (selected.length === 0);
+
+  for (const p of POIS) {
+    const idx = selected.indexOf(p.id);
+    const on = idx >= 0;
+
+    const card = document.getElementById(p.id);
+    if (card) card.classList.toggle("selected", on);
+
+    const pos = document.querySelector(`[data-selpos="${p.id}"]`);
+    if (pos) pos.textContent = on ? `${idx + 1}/${MAX_SEL}` : `—/${MAX_SEL}`;
+
+    const cb = document.querySelector(`input[type="checkbox"][data-sel="${p.id}"]`);
+    if (cb) cb.checked = on;
+
+    const up = document.querySelector(`button[data-move="up"][data-id="${p.id}"]`);
+    const down = document.querySelector(`button[data-move="down"][data-id="${p.id}"]`);
+    if (up) up.disabled = (!on || idx === 0);
+    if (down) down.disabled = (!on || idx === selected.length - 1);
+
+    const m = poiMarkers.get(p.id);
+    if (m && window.L) {
+      if (on) m.setIcon(numberedGreenIcon(idx + 1));
+      else m.setIcon(poiIconBlue);
+      m.setZIndexOffset(on ? 800 : 0);
+    }
+  }
+}
+
+/* ===== távolság mérés ===== */
+
+async function measureAll(scrollToNearest) {
+  try {
+    if (typeof getPos !== "function") return;
+
+    const pos = await getPos();
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+
+    let nearest = null;
+
+    for (const p of POIS) {
+      if (typeof haversineMeters !== "function" || typeof fmtMeters !== "function") break;
+
+      const dist = haversineMeters(lat, lon, p.lat, p.lon);
+      setDist(p.id, fmtMeters(dist));
+      setState(p.id, "mérés: frissítve");
+
+      if (!nearest || dist < nearest.dist) nearest = { id: p.id, dist };
+    }
+
+    if (scrollToNearest && nearest) scrollToPoi(nearest.id);
+
+    if (map && window.L && userIconRed) {
+      if (!userMarker) {
+        userMarker = L.marker([lat, lon], { icon: userIconRed })
+          .addTo(map)
+          .bindPopup("Itt vagyok");
+      } else {
+        userMarker.setLatLng([lat, lon]);
+      }
+    }
+  } catch {
+    const n = document.getElementById("gpsNotice");
+    if (n) n.style.display = "block";
+  }
+}
+
+/* ===== események ===== */
+
 function wireUi() {
+  document.getElementById("btnNaviSelected")?.addEventListener("click", openSelectedRoute);
+
+  document.getElementById("btnClearSelected")?.addEventListener("click", () => {
+    selected = [];
+    saveSelected();
+    refreshSelectionUi();
+  });
+
   document.getElementById("btnNearest")?.addEventListener("click", async () => {
     try {
+      if (typeof measureNearest !== "function") return;
       const r = await measureNearest(DAY_ID, POIS);
       if (r && r.poi) {
         await measureAll(false);
         scrollToPoi(r.poi.id);
       }
-    } catch (e) {
+    } catch {
       const n = document.getElementById("gpsNotice");
       if (n) n.style.display = "block";
     }
-  });
-
-  document.getElementById("btnRandom")?.addEventListener("click", () => {
-    const pick = POIS[Math.floor(Math.random() * POIS.length)];
-    if (pick) scrollToPoi(pick.id);
-  });
-
-  document.querySelectorAll("[data-measure]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.getAttribute("data-measure");
-      if (id) measureOne(id);
-    });
   });
 
   document.addEventListener("change", (ev) => {
@@ -610,11 +485,17 @@ function wireUi() {
     const t = ev.target;
     if (!(t instanceof Element)) return;
 
-    const mv = t.closest("[data-move][data-id]");
+    const mv = t.closest("button[data-move][data-id]");
     if (mv) {
       const id = mv.getAttribute("data-id");
       const dir = mv.getAttribute("data-move") === "up" ? -1 : 1;
       if (id) moveSelected(id, dir);
+      return;
+    }
+
+    const selNavMini = t.closest("[data-nav-selected]");
+    if (selNavMini) {
+      openSelectedRoute();
     }
   });
 }
@@ -622,10 +503,7 @@ function wireUi() {
 document.addEventListener("DOMContentLoaded", () => {
   selected = loadSelected();
 
-  ensureMapFrame();
-  ensureSelbar();
   ensurePoiPickControls();
-
   wireUi();
   initMap();
 
@@ -633,5 +511,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   measureAll(false);
   setTimeout(() => measureAll(false), 5000);
-});
 
+  window.addEventListener("resize", () => {
+    if (map) setTimeout(() => { try { map.invalidateSize(); } catch { /* ignore */ } }, 120);
+  });
+});
