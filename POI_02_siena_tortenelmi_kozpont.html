@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2. Siena, történelmi központ</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background:
+              linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.78)),
+              url("images/poi_02_siena_tortenelmi_kozpont.jpg") center / cover no-repeat fixed;
+        }
+        #map {
+            width: 100%;
+            height: 320px;
+            margin-top: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Toszkána és Umbria</div>
+                    <div class="subtitle">2. Siena, történelmi központ</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="index.html">📋 Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">2. Siena, történelmi központ</div>
+                <div class="small">43.318800, 11.330800</div>
+
+                <img class="hero-image" src="images/poi_02_siena_tortenelmi_kozpont.jpg" alt="Siena, történelmi központ">
+
+                <div class="p">
+Középkori városélmény, ami nem díszlet, hanem nagyon is élő hely.
+
+Siena városszerkezete szinte színházi, a főtér kagyló formája miatt természetesen vezeti a tekintetet. A téglahomlokzatok és a keskeny utcák egységes képet adnak, kevés modern töréssel. A város identitását a régi negyedek és a hozzájuk kötődő hagyományok máig formálják. A katedrális belső tere fekete fehér ritmusával és részletgazdagságával erős kontraszt a kinti meleg színekhez képest. A környék dombjai miatt pár perc alatt eljuttok panorámapontokra is.
+Google Maps: https://www.google.com/maps?q=43.3188,11.3308
+                </div>
+
+                <div class="poibtns">
+                    <a class="btn btn-blue" href="http://www.google.com/maps/dir/?api=1&destination=43.318800,11.330800" target="_blank" rel="noopener">🧭 Navigáció</a>
+                    <a class="btn btn-accent" href="index.html">📋 Lista</a>
+                </div>
+
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const POI = {
+            name: "Siena, történelmi központ",
+            lat: 43.318800,
+            lon: 11.330800
+        };
+
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+
+        // GPS piros
+        let userMarker = null;
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+</html>
