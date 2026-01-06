@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>9. Volterra, etruszk városmag</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+                url("images/bg_toscana_umbria.jpg") center / cover no-repeat fixed;
+        }
+
+        #map {
+            width: 100%;
+            height: 420px !important;
+            min-height: 420px !important;
+            margin-top: 18px;
+            margin-top: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Street View embed – a hero kép helyére */
+        .gsv-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin: 14px 0 6px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .gsv-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Toszkána és Umbria</div>
+                    <div class="subtitle">9. Volterra, etruszk városmag</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="index.html">📋 Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">9. Volterra, etruszk városmag</div>
+                <div class="small">43.401800, 10.860500</div>
+
+                <!-- Street View / 360 – HERO HELYETT -->
+                <div class="gsv-wrap">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!4v1767473559276!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJQzY5SmVjcEFF!2m2!1d43.40207662645337!2d10.85961084092201!3f300.3443078375662!4f12.62823295333213!5f2.2575109685210317"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+                <div class="p">
+                    Kőváros a magasban, etruszk örökséggel és drámai peremekkel.
+
+                    Volterra magas fekvése miatt a kilátás sokszor messze nyílik a dombvidékre. Az etruszk és római
+                    rétegek nem múzeumi módon vannak jelen, hanem a városszövet részei. A kőfalak és kapuk nagyon
+                    karakteresek, és a város hangulata komolyabb, mint a tipikus borvidéki falvaké. A környéken a
+                    földcsuszamlásos, agyagos felszínek külön tájélményt adnak. Jó hely, ha valami súlyosabb Toszkánát
+                    kerestek.
+                    Google Maps: https://www.google.com/maps?q=43.4018,10.8605
+                </div>
+
+                <div class="poibtns">
+                    <a class="btn btn-blue" href="http://www.google.com/maps/dir/?api=1&destination=43.401800,10.860500"
+                        target="_blank" rel="noopener">🧭 Navigáció</a>
+                    <a class="btn btn-accent" href="index.html">📋 Lista</a>
+                </div>
+
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const POI = {
+            name: "Volterra, etruszk városmag",
+            lat: 43.401800,
+            lon: 10.860500
+        };
+
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+
+        // GPS piros
+        let userMarker = null;
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+
+</html>

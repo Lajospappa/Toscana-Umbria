@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>31. Assisi, Basilica di San Francesco</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background:
+              linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),
+              url("images/poi_31_assisi_basilica_di_san_francesco.jpg") center / cover no-repeat fixed;
+        }
+        #map {
+            width: 100%;
+            height: 420px !important;
+            min-height: 420px !important;
+            margin-top: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Toszkána és Umbria</div>
+                    <div class="subtitle">31. Assisi, Basilica di San Francesco</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="index.html">📋 Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">31. Assisi, Basilica di San Francesco</div>
+                <div class="small">43.071500, 12.603300</div>
+
+                <img class="hero-image" src="images/poi_31_assisi_basilica_di_san_francesco.jpg" alt="Assisi, Basilica di San Francesco">
+
+                <div class="p">
+Erős szakrális hely, ahol a tér, a csend és a művészet egyszerre dolgozik.
+
+A bazilika együttese több szinten épül, ezért a bejárás lefelé és felfelé is élmény. A freskók miatt nem csak vallási hely, hanem művészettörténeti csúcspont is. A város domboldali elhelyezkedése miatt a kilátások állandóan jelen vannak. Assisi kövei és színei egységesek, ezért a városkép nagyon karakteres. Ha Umbriából csak egy szakrális központot választotok, ez a kötelező.
+Google Maps: https://www.google.com/maps?q=43.0715,12.6033
+                </div>
+
+                <div class="poibtns">
+                    <a class="btn btn-blue" href="http://www.google.com/maps/dir/?api=1&destination=43.071500,12.603300" target="_blank" rel="noopener">🧭 Navigáció</a>
+                    <a class="btn btn-accent" href="index.html">📋 Lista</a>
+                </div>
+
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const POI = {
+            name: "Assisi, Basilica di San Francesco",
+            lat: 43.071500,
+            lon: 12.603300
+        };
+
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+
+        // GPS piros
+        let userMarker = null;
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+</html>

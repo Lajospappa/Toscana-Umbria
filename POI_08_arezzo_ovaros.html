@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>8. Arezzo, óváros</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+                url("images/poi_08_arezzo_ovaros.jpg") center / cover no-repeat fixed;
+        }
+
+        #map {
+            width: 100%;
+            height: 420px !important;
+            min-height: 420px !important;
+            margin-top: 18px;
+            margin-top: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Toszkána és Umbria</div>
+                    <div class="subtitle">8. Arezzo, óváros</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="index.html">📋 Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">8. Arezzo, óváros</div>
+                <div class="small">43.463300, 11.879600</div>
+
+                <img class="hero-image" src="images/poi_08_arezzo_ovaros.jpg" alt="Arezzo, óváros">
+
+                <div class="p">
+                    Kevésbé zsúfolt, mégis nagyon erős történelmi város, igazi felfedezős hangulattal.
+
+                    Arezzo dombos, ezért a kilátások és a terek dinamikusak. A főbb templomok és paloták mellett sok a
+                    köztes utca, ami a várost élővé teszi. A városban a toszkán kő és tégla aránya kicsit más, ezért a
+                    színei is eltérnek Sienától. Ha szerettek részleteket nézni, itt rengeteg kapualj, lépcső és belső
+                    udvar van. Piacos napokon különösen jó a hangulat.
+                    Google Maps: https://www.google.com/maps?q=43.4633,11.8796
+                </div>
+
+                <div class="poibtns">
+                    <a class="btn btn-blue" href="http://www.google.com/maps/dir/?api=1&destination=43.463300,11.879600"
+                        target="_blank" rel="noopener">🧭 Navigáció</a>
+                    <a class="btn btn-accent" href="index.html">📋 Lista</a>
+                </div>
+
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const POI = {
+            name: "Arezzo, óváros",
+            lat: 43.463300,
+            lon: 11.879600
+        };
+
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+
+        // GPS piros
+        let userMarker = null;
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+
+</html>

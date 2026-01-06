@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>25. Populonia, etruszk örökség és tenger közeli hegyfok</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+                url("images/bg_toscana_umbria.jpg") center / cover no-repeat fixed;
+        }
+
+        #map {
+            width: 100%;
+            height: 420px !important;
+            min-height: 420px !important;
+            margin-top: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Toszkána és Umbria</div>
+                    <div class="subtitle">25. Populonia, etruszk örökség és tenger közeli hegyfok</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="index.html">📋 Lista</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">25. Populonia, etruszk örökség és tenger közeli hegyfok</div>
+                <div class="small">42.989400, 10.491400</div>
+
+                <iframe class="hero-image"
+                    src="https://www.google.com/maps/embed?pb=!4v1767545499023!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJRDRsNWpJYlE.!2m2!1d42.98978741701565!2d10.49132140579676!3f67.15969124731103!4f-15.905730358785348!5f0.7820865974627469"
+                    style="width:100%; height:420px; border:0;" allowfullscreen loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <div class="p">
+
+                    Ritka kombináció, ókori városhely és tengerparti táj egy pontban.
+
+                    Populonia helyzete stratégiai, ezért érthető, miért volt fontos már az ókorban is. A környéken a
+                    régészeti rétegek és a mediterrán táj egyszerre vannak jelen. A tenger közelsége miatt a levegő és a
+                    fény is más karakterű, mint a belső Toszkánában. A kilátás a part felé erős, és a környező öblök
+                    miatt akár strandot is lehet hozzá kapcsolni. Jó külön fejezet Toszkánán belül.
+                    Google Maps: https://www.google.com/maps?q=42.9894,10.4914
+                </div>
+
+                <div class="poibtns">
+                    <a class="btn btn-blue" href="http://www.google.com/maps/dir/?api=1&destination=42.989400,10.491400"
+                        target="_blank" rel="noopener">🧭 Navigáció</a>
+                    <a class="btn btn-accent" href="index.html">📋 Lista</a>
+                </div>
+
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const POI = {
+            name: "Populonia, etruszk örökség és tenger közeli hegyfok",
+            lat: 42.989400,
+            lon: 10.491400
+        };
+
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+
+        // GPS piros
+        let userMarker = null;
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+
+</html>
